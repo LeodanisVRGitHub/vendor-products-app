@@ -54,6 +54,19 @@ git push -u origin main
 
 ## Step 5: Deploy to Vercel
 
+### Important: Remove Database Secret Reference
+
+⚠️ Before deploying, ensure your `vercel.json` does NOT reference secrets like `@database_url`.
+The correct `vercel.json` should look like this:
+
+```json
+{
+  "framework": "nextjs",
+  "buildCommand": "prisma generate && next build",
+  "installCommand": "npm install"
+}
+```
+
 ### Option A: Vercel Dashboard (Easier)
 
 1. Go to https://vercel.com and sign in
@@ -66,9 +79,11 @@ git push -u origin main
    - Build Command: `prisma generate && next build --turbopack`
    - Output Directory: `.next` (auto-filled)
    - Install Command: `npm install`
-6. Click "Deploy"
-7. Wait for deployment to complete (2-3 minutes)
-8. Your app is live! 🎉
+6. **IMPORTANT:** Before clicking Deploy, go to "Environment Variables" and add:
+   - Skip this step for now if using Vercel Postgres (configured in Step 6)
+7. Click "Deploy"
+8. Wait for deployment to complete (2-3 minutes)
+9. Your app is live! 🎉
 
 ### Option B: Vercel CLI (Advanced)
 
