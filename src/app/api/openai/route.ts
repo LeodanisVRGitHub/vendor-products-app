@@ -14,10 +14,8 @@ export async function POST(request: NextRequest) {
 
     const result = await createChatCompletion(messages);
     return NextResponse.json(result);
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: error?.message || String(error) },
-      { status: 500 }
-    );
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
