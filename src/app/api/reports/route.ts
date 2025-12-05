@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { Prisma } from "@prisma/client";
+import { handlePrismaError } from "@/lib/prismaErrorHandler";
 
 export async function GET(request: NextRequest) {
   try {
@@ -121,10 +122,6 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(report);
   } catch (error) {
-    console.error("Error generating report:", error);
-    return NextResponse.json(
-      { error: "Failed to generate report" },
-      { status: 500 }
-    );
+    return handlePrismaError(error);
   }
 }

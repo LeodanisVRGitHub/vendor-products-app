@@ -162,6 +162,36 @@ const translations = {
     "common.loading": "Loading...",
     "common.required": "Required",
     "common.optional": "Optional",
+
+    // Auth & Login
+    Bienvenido: "Welcome",
+    "Selecciona tu tipo de usuario para continuar":
+      "Select your user type to continue",
+    "Tipo de Usuario": "User Type",
+    Administrador: "Administrator",
+    "Acceso completo al sistema": "Full system access",
+    Invitado: "Guest",
+    "Solo visualización": "View only",
+    Contraseña: "Password",
+    "Ingresa tu contraseña": "Enter your password",
+    "Por favor selecciona un usuario": "Please select a user",
+    "Contraseña incorrecta": "Incorrect password",
+    "Ingresando...": "Logging in...",
+    "Ingresar al Sistema": "Login to System",
+    Usuario: "User",
+    "Solo lectura": "Read only",
+    "Modo claro": "Light mode",
+    "Modo oscuro": "Dark mode",
+    "Cerrar sesión": "Logout",
+    Salir: "Logout",
+    "Sistema de Gestión": "Management System",
+    "Productos y Vendedores": "Products and Vendors",
+    "Accede a tu cuenta para gestionar productos, vendedores y generar reportes profesionales.":
+      "Access your account to manage products, vendors and generate professional reports.",
+    "Gestión completa de inventario": "Complete inventory management",
+    "Reportes y exportación a PDF": "Reports and PDF export",
+    "Interfaz multiidioma": "Multi-language interface",
+    "Todos los derechos reservados": "All rights reserved",
   },
   es: {
     // Navbar
@@ -320,6 +350,36 @@ const translations = {
     "common.loading": "Cargando...",
     "common.required": "Requerido",
     "common.optional": "Opcional",
+
+    // Auth & Login
+    Bienvenido: "Bienvenido",
+    "Selecciona tu tipo de usuario para continuar":
+      "Selecciona tu tipo de usuario para continuar",
+    "Tipo de Usuario": "Tipo de Usuario",
+    Administrador: "Administrador",
+    "Acceso completo al sistema": "Acceso completo al sistema",
+    Invitado: "Invitado",
+    "Solo visualización": "Solo visualización",
+    Contraseña: "Contraseña",
+    "Ingresa tu contraseña": "Ingresa tu contraseña",
+    "Por favor selecciona un usuario": "Por favor selecciona un usuario",
+    "Contraseña incorrecta": "Contraseña incorrecta",
+    "Ingresando...": "Ingresando...",
+    "Ingresar al Sistema": "Ingresar al Sistema",
+    Usuario: "Usuario",
+    "Solo lectura": "Solo lectura",
+    "Modo claro": "Modo claro",
+    "Modo oscuro": "Modo oscuro",
+    "Cerrar sesión": "Cerrar sesión",
+    Salir: "Salir",
+    "Sistema de Gestión": "Sistema de Gestión",
+    "Productos y Vendedores": "Productos y Vendedores",
+    "Accede a tu cuenta para gestionar productos, vendedores y generar reportes profesionales.":
+      "Accede a tu cuenta para gestionar productos, vendedores y generar reportes profesionales.",
+    "Gestión completa de inventario": "Gestión completa de inventario",
+    "Reportes y exportación a PDF": "Reportes y exportación a PDF",
+    "Interfaz multiidioma": "Interfaz multiidioma",
+    "Todos los derechos reservados": "Todos los derechos reservados",
   },
 };
 

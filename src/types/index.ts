@@ -20,6 +20,7 @@ export interface Product {
   sku: string;
   category: string;
   status: string;
+  image: string | null;
   vendorId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -52,6 +53,7 @@ export interface CreateProductInput {
   sku: string;
   category: string;
   status?: string;
+  image?: string;
   vendorId: string;
 }
 
@@ -63,6 +65,7 @@ export interface UpdateProductInput {
   sku?: string;
   category?: string;
   status?: string;
+  image?: string;
   vendorId?: string;
 }
 

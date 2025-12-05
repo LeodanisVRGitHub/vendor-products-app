@@ -9,6 +9,8 @@ import {
   Search,
   DollarSign,
   Package as PackageIcon,
+  Image as ImageIcon,
+  X,
 } from "lucide-react";
 import Card from "@/components/Card";
 import Button from "@/components/Button";
@@ -16,10 +18,13 @@ import Modal from "@/components/Modal";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import type { Product, Vendor } from "@/types";
 
 export default function ProductsPage() {
   const { t } = useLanguage();
+  const { canCreate, canEdit, canDelete } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
   const [vendors, setVendors] = useState<Vendor[]>([]);
   const [loading, setLoading] = useState(true);
@@ -38,7 +43,9 @@ export default function ProductsPage() {
     category: "",
     status: "available",
     vendorId: "",
+    image: "",
   });
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   useEffect(() => {
     fetchVendors();
@@ -90,7 +97,9 @@ export default function ProductsPage() {
         category: product.category,
         status: product.status,
         vendorId: product.vendorId,
+        image: product.image || "",
       });
+      setImagePreview(product.image || null);
     } else {
       setEditingProduct(null);
       setFormData({
@@ -102,7 +111,9 @@ export default function ProductsPage() {
         category: "",
         status: "available",
         vendorId: "",
+        image: "",
       });
+      setImagePreview(null);
     }
     setIsModalOpen(true);
   };
@@ -110,6 +121,37 @@ export default function ProductsPage() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setEditingProduct(null);
+    setImagePreview(null);
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert("La imagen debe ser menor a 5MB");
+        return;
+      }
+
+      // Validate file type
+      if (!file.type.startsWith("image/")) {
+        alert("Solo se permiten archivos de imagen");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setFormData({ ...formData, image: base64String });
+        setImagePreview(base64String);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setFormData({ ...formData, image: "" });
+    setImagePreview(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -166,7 +208,7 @@ export default function ProductsPage() {
             {t("products.subtitle")}
           </p>
         </div>
-        <Button onClick={() => handleOpenModal()}>
+        <Button onClick={() => handleOpenModal()} disabled={!canCreate}>
           <Plus size={20} className="mr-2" />
           {t("products.addProduct")}
         </Button>
@@ -227,6 +269,15 @@ export default function ProductsPage() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.05 }}>
               <Card>
+                {product.image && (
+                  <div className="mb-3 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-48 object-cover"
+                    />
+                  </div>
+                )}
                 <div className="flex justify-between items-start mb-3">
                   <div className="flex-1">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
@@ -239,12 +290,22 @@ export default function ProductsPage() {
                   <div className="flex gap-1">
                     <button
                       onClick={() => handleOpenModal(product)}
-                      className="p-1.5 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg">
+                      disabled={!canEdit}
+                      className={`p-1.5 rounded-lg transition-colors ${
+                        canEdit
+                          ? "text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                          : "text-gray-400 cursor-not-allowed"
+                      }`}>
                       <Edit size={16} />
                     </button>
                     <button
                       onClick={() => handleDelete(product.id)}
-                      className="p-1.5 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg">
+                      disabled={!canDelete}
+                      className={`p-1.5 rounded-lg transition-colors ${
+                        canDelete
+                          ? "text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                          : "text-gray-400 cursor-not-allowed"
+                      }`}>
                       <Trash2 size={16} />
                     </button>
                   </div>
@@ -394,6 +455,48 @@ export default function ProductsPage() {
               { value: "discontinued", label: t("products.discontinued") },
             ]}
           />
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Imagen del producto
+            </label>
+            <div className="space-y-3">
+              {imagePreview ? (
+                <div className="relative inline-block">
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="w-full max-w-xs h-48 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleRemoveImage}
+                    className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors">
+                    <X size={16} />
+                  </button>
+                </div>
+              ) : (
+                <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <ImageIcon className="w-10 h-10 mb-3 text-gray-400" />
+                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                      <span className="font-semibold">Click para subir</span> o
+                      arrastra y suelta
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      PNG, JPG, WEBP (MAX. 5MB)
+                    </p>
+                  </div>
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                  />
+                </label>
+              )}
+            </div>
+          </div>
 
           <div className="flex justify-end gap-4 pt-4">
             <Button

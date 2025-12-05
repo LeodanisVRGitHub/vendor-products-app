@@ -8,7 +8,7 @@ A professional full-stack application built with Next.js for managing vendors an
 - 📦 **Product Management**: Comprehensive product inventory system
 - 📊 **Advanced Reports**: Dynamic charts and analytics
 - 📄 **PDF Export**: High-quality PDF report generation with professional formatting
-- 🌓 **Dark/Light Mode**: Seamless theme switching with persistence
+- 🌓 **Dark Mode**: Professional dark theme with modern color palette
 - 🎨 **Professional UI**: Modern design with Tailwind CSS
 - ✨ **Smooth Animations**: Framer Motion powered transitions
 - 📱 **Fully Responsive**: Mobile-first design approach
@@ -18,7 +18,7 @@ A professional full-stack application built with Next.js for managing vendors an
 ## Tech Stack
 
 - **Framework**: Next.js 15 (App Router)
-- **Database**: SQLite with Prisma ORM
+- **Database**: PostgreSQL (production) / SQLite (development) with Prisma ORM
 - **Styling**: Tailwind CSS
 - **Animations**: Framer Motion
 - **Charts**: Recharts
@@ -122,6 +122,31 @@ src/
 
 ## Deployment
 
+### Deploy to Render (Recommended)
+
+Render is a modern cloud platform perfect for Next.js applications. Follow our detailed guides:
+
+- **[Quick Start Guide](./QUICK_DEPLOY_RENDER.md)** - Get deployed in 5 minutes
+- **[Complete Deployment Guide](./RENDER_DEPLOY.md)** - Detailed step-by-step instructions
+- **[Deployment Checklist](./RENDER_CHECKLIST.md)** - Make sure you don't miss anything
+- **[Useful Commands](./RENDER_COMMANDS.md)** - CLI commands and tips
+
+#### Quick Deployment Steps:
+
+1. Create PostgreSQL database on Render
+2. Create Web Service and connect your GitHub repo
+3. Set environment variables (DATABASE_URL, NODE_ENV)
+4. Deploy and run migrations
+5. Your app is live! 🚀
+
+**Features on Render:**
+
+- ✅ Free tier available
+- ✅ Automatic deployments from Git
+- ✅ Built-in PostgreSQL database
+- ✅ Free SSL certificates
+- ✅ Easy scaling
+
 ### Deploy to Vercel
 
 1. Push your code to GitHub
@@ -130,7 +155,7 @@ src/
    - `DATABASE_URL`: Your database connection string
 4. Deploy!
 
-The easiest way to deploy is using the [Vercel Platform](https://vercel.com).
+The [Vercel Platform](https://vercel.com) is also a great option for Next.js apps.
 
 ## Environment Variables
 

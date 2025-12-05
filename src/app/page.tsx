@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import {
@@ -16,10 +17,36 @@ import {
 } from "lucide-react";
 import Button from "@/components/Button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function LandingPage() {
   const router = useRouter();
   const { t } = useLanguage();
+  const { isAuthenticated } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Redirigir al login si no está autenticado
+    if (!isAuthenticated) {
+      router.push("/login");
+    } else {
+      setIsLoading(false);
+    }
+  }, [isAuthenticated, router]);
+
+  // Mostrar loading mientras se verifica la autenticación
+  if (isLoading || !isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400 text-lg">
+            {t("Verificando acceso...")}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   const features = [
     {
